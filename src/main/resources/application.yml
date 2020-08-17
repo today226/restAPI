@@ -4,3 +4,22 @@ spring:
   freemarker:
     template-loader-path: classpath:/templates/
     suffix: .ftl
+  datasource:
+    driverClassName: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/restapi
+    username: myadmin
+    password: okwonwoo82
+    maximum-pool-size: 10
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties.hibernate:
+    hbm2ddl.auto: none
+    showSql: true
+
+#showSql: true jpa가 실행하는 쿼리를 console 로그로 출력하기 위한 설정
+#hbm2ddl.auto
+#create       서버 시작할 때 모든 테이블을 생성
+#create-drop  서버 시작할 때 테이블을 생성하고 종료할 때 생성된 테이블을 삭제
+#update       서버 시작 시 Entity와 Table을 비교하여 변경된 내용을 반영합니다. Table이 없으면 새롭게 생성
+#validate     서버 시작 시 Entity와 실제 Table을 비교하여 다르면 시작하지 않고 종료
+#none         아무런 처리를 하지 않는다
