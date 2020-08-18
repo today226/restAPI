@@ -31,11 +31,11 @@ public class UserController {
     }
 
     @ApiOperation(value = "회원 단건 조회", notes = "userId로 회원을 조회한다")
-    @GetMapping(value = "/user/{msrl}")
-    public SingleResult<User> findUserById(@ApiParam(value = "회원ID", required = true) @PathVariable long msrl) {
+    @GetMapping(value = "/user/{userId}")
+    public SingleResult<User> findUserById(@ApiParam(value = "회원ID", required = true) @PathVariable long userId) throws Exception {
 
         //결과 데이터가 단일건인 경우 getBasicResult를 이용해서 결과를 출력
-        return responseService.getSingleResult(userJpaRepository.findById(msrl).orElse(null));
+        return responseService.getSingleResult(userJpaRepository.findById(userId).orElseThrow(Exception::new));
     }
 
     @ApiOperation(value = "회원 입력", notes = "회원을 입력한다")
