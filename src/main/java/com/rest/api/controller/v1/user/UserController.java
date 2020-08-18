@@ -1,6 +1,7 @@
 package com.rest.api.controller.v1.user;
 
 import com.rest.api.entity.User;
+import com.rest.api.exception.CustomUserNotFoundException;
 import com.rest.api.model.response.common.CommonResult;
 import com.rest.api.model.response.result.ListResult;
 import com.rest.api.model.response.result.SingleResult;
@@ -35,7 +36,7 @@ public class UserController {
     public SingleResult<User> findUserById(@ApiParam(value = "회원ID", required = true) @PathVariable long userId) throws Exception {
 
         //결과 데이터가 단일건인 경우 getBasicResult를 이용해서 결과를 출력
-        return responseService.getSingleResult(userJpaRepository.findById(userId).orElseThrow(Exception::new));
+        return responseService.getSingleResult(userJpaRepository.findById(userId).orElseThrow(CustomUserNotFoundException::new));
     }
 
     @ApiOperation(value = "회원 입력", notes = "회원을 입력한다")

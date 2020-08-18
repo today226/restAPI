@@ -1,5 +1,6 @@
 package com.rest.api.advice;
 
+import com.rest.api.exception.CustomUserNotFoundException;
 import com.rest.api.model.response.common.CommonResult;
 import com.rest.api.service.ResponseService;
 import lombok.RequiredArgsConstructor;
@@ -38,17 +39,26 @@ public class ExceptionAdvice {
     참고로 성공 시엔 HttpStatus code가 200으로 전달.
     HttpStatus Code의 역할은 성공이냐(200) 아니냐 정도의 의미만 있고 실제 사용하는 성공 실패 여부는 json으로 출력되는 정보를 이용
      */
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    protected CommonResult defaultException(HttpServletRequest request, Exception e) {
+
+//새롭게 만든 CustomUserNotFoundException이 정상적으로 동작되는지 테스트 하기 위해 임시 주석처리
+//    @ExceptionHandler(Exception.class)
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    protected CommonResult defaultException(HttpServletRequest request, Exception e) {
 
         /*
         Exception 발생시 이미 만들어둔 CommonResult의 실패 결과를 json 형태로 출력하도록 설정
         위에서 세팅한 HttpStatus Code외에 추가로 api 성공 실패여부를 다시 세팅하는 이유는 상황에 따라 다양한 메시지를 전달하기 위해서
         HttpStatus Code는 이미 고정된 스펙이기 때문에 (예 200 == OK, 404 == Not Found 등등…) 상세한 예외 메시지 전달에 한계가 있다.
         예를 들자면 “회원 정보가 없음” 이라는 에러 메시지는 HttpStatus Code상에 존재하지 않아 표현할 수가 없다.
-        따라서 커스텀 Exception을 정의하고 해당 Exception 발생하면 적절한 형태의 오류 메시지를 담은 Json을 결과에 내리도록 처리 한 것이다
+        따라서 커스텀 Exception을 정의하고 해당 Exception 발생하면 적절한 형태의 오류 메시지를 담은 Json을 결과에 내리도록 처리 한 것
          */
+//        return responseService.getFailResult();
+//    }
+
+    @ExceptionHandler(CustomUserNotFoundException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResult userNotFoundException(HttpServletRequest request, CustomUserNotFoundException e) {
+
         return responseService.getFailResult();
     }
 }
