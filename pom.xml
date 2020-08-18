@@ -81,6 +81,13 @@
             <version>2.3.2.RELEASE</version>
         </dependency>
         <!--Freemarker -->
+        <!--yml load lib -->
+        <dependency>
+            <groupId>net.rakugakibox.util</groupId>
+            <artifactId>yaml-resource-bundle</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <!--yml load lib -->
     </dependencies>
 
     <build>

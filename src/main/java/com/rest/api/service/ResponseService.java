@@ -40,12 +40,12 @@ public class ResponseService {
     }
 
     //실패 결과만 처리하는 메소드
-    public CommonResult getFailResult() {
+    public CommonResult getFailResult(int code, String message) {
 
         CommonResult result = new CommonResult();
         result.setSuccess(false);
-        result.setCode(CommonResponse.FAIL.getCode());
-        result.setMessage(CommonResponse.FAIL.getMessage());
+        result.setCode(code);               //yml 파일의 설정된 Exception 에러 문구를 받는다
+        result.setMessage(message);         //yml 파일의 설정된 Exception 에러 문구를 받는다
         return result;
     }
 

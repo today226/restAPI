@@ -33,7 +33,8 @@ public class UserController {
 
     @ApiOperation(value = "회원 단건 조회", notes = "userId로 회원을 조회한다")
     @GetMapping(value = "/user/{userId}")
-    public SingleResult<User> findUserById(@ApiParam(value = "회원ID", required = true) @PathVariable long userId) throws Exception {
+    public SingleResult<User> findUserById(@ApiParam(value = "회원ID",    required        = true) @PathVariable long userId,
+                                           @ApiParam(value = "언어",      defaultValue    = "ko") @RequestParam String lang) throws Exception {
 
         //결과 데이터가 단일건인 경우 getBasicResult를 이용해서 결과를 출력
         return responseService.getSingleResult(userJpaRepository.findById(userId).orElseThrow(CustomUserNotFoundException::new));

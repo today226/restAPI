@@ -4,6 +4,8 @@ import com.rest.api.exception.CustomUserNotFoundException;
 import com.rest.api.model.response.common.CommonResult;
 import com.rest.api.service.ResponseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -25,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ExceptionAdvice {
 
     private final ResponseService responseService;
-
+    private final MessageSource messageSource;
     /*
     @ExceptionHandler(Exception.class)
     Exception이 발생하면 해당 Handler로 처리하겠다고 명시하는 annotation이다.
@@ -55,10 +57,32 @@ public class ExceptionAdvice {
 //        return responseService.getFailResult();
 //    }
 
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResult defaultException(HttpServletRequest request, Exception e) {
+
+        //예외 처리의 메시지를 MessageSource에서 가져오도록 수정
+        return responseService.getFailResult(Integer.valueOf(getMessage("unKnown.code")), getMessage("unKnown.message"));
+    }
+
+
     @ExceptionHandler(CustomUserNotFoundException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult userNotFoundException(HttpServletRequest request, CustomUserNotFoundException e) {
 
-        return responseService.getFailResult();
+        // 예외 처리의 메시지를 MessageSource에서 가져오도록 수정
+        return responseService.getFailResult(Integer.valueOf(getMessage("unKnown.code")), getMessage("unKnown.message"));
+    }
+
+    //code정보에 해당하는 메시지를 조회
+    private String getMessage(String code) {
+
+        return getMessage(code, null);
+    }
+
+    //code 정보, 추가 argument로 현재 locale에 맞는 에러 메시지를 조회
+    private String getMessage(String code, Object[] args) {
+
+        return messageSource.getMessage(code, args, LocaleContextHolder.getLocale());
     }
 }
