@@ -18,7 +18,8 @@ spring:
   messages:
     basename: i18n/exception
     encoding: UTF-8
-
+  jwt:
+    secret: govlepel@$&
 #showSql: true jpa가 실행하는 쿼리를 console 로그로 출력하기 위한 설정
 #hbm2ddl.auto
 #create       서버 시작할 때 모든 테이블을 생성

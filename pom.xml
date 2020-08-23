@@ -88,6 +88,20 @@
             <version>1.1</version>
         </dependency>
         <!--yml load lib -->
+        <!--spring security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>2.3.3.RELEASE</version>
+        </dependency>
+        <!--spring security -->
+        <!--JWT lib-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+        <!--JWT lib-->
     </dependencies>
 
     <build>

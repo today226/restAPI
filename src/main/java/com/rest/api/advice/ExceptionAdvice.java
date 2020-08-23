@@ -1,5 +1,6 @@
 package com.rest.api.advice;
 
+import com.rest.api.exception.CustomEmailSigninFailedException;
 import com.rest.api.exception.CustomUserNotFoundException;
 import com.rest.api.model.response.common.CommonResult;
 import com.rest.api.service.ResponseService;
@@ -84,5 +85,13 @@ public class ExceptionAdvice {
     private String getMessage(String code, Object[] args) {
 
         return messageSource.getMessage(code, args, LocaleContextHolder.getLocale());
+    }
+
+    //이에일 인증 실패 메세지 처리
+    @ExceptionHandler(CustomEmailSigninFailedException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResult emailSigninFailed(HttpServletRequest httpServletRequest, CustomEmailSigninFailedException e) {
+
+        return responseService.getFailResult(Integer.valueOf(getMessage("emailSigninFailed.code")), getMessage("emailSigninFailed.message"));
     }
 }

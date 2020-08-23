@@ -1,5 +1,6 @@
 package com.rest.api.controller;
 
+import io.swagger.annotations.Api;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+@Api(tags = {"3. Hello"})
 @Slf4j
 @Controller
 public class HelloController {
