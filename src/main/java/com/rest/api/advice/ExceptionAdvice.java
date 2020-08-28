@@ -87,11 +87,18 @@ public class ExceptionAdvice {
         return messageSource.getMessage(code, args, LocaleContextHolder.getLocale());
     }
 
-    //이에일 인증 실패 메세지 처리
+    //CustomEmailSigninFailedException 발생 시 이에일 인증 실패 메세지 처리
     @ExceptionHandler(CustomEmailSigninFailedException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult emailSigninFailed(HttpServletRequest httpServletRequest, CustomEmailSigninFailedException e) {
 
         return responseService.getFailResult(Integer.valueOf(getMessage("emailSigninFailed.code")), getMessage("emailSigninFailed.message"));
+    }
+
+    //CustomAuthenticationEntryPointException 발생시 메세지 처리
+    @ExceptionHandler(CustomAuthenticationEntryPointException.class)
+    public CommonResult authenticationEntryPointException(HttpServletRequest httpServletRequest, CustomAuthenticationEntryPointException e) {
+
+        return responseService.getFailResult(Integer.valueOf(getMessage("entryPointException.code")), getMessage("entryPointException.message"));
     }
 }
