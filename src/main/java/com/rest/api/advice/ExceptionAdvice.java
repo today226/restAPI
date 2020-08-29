@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -100,5 +102,11 @@ public class ExceptionAdvice {
     public CommonResult authenticationEntryPointException(HttpServletRequest httpServletRequest, CustomAuthenticationEntryPointException e) {
 
         return responseService.getFailResult(Integer.valueOf(getMessage("entryPointException.code")), getMessage("entryPointException.message"));
+    }
+
+    //AccessDeniedException 발생 시 권한 없음 메세리 처리
+    @ExceptionHandler(AccessDeniedException.class)
+    public CommonResult AccessDeniedException(HttpServletRequest request, AccessDeniedException e) {
+        return responseService.getFailResult(Integer.valueOf(getMessage("accessDenied.code")), getMessage("accessDenied.message"));
     }
 }

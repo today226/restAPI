@@ -9,4 +9,7 @@ emailSigninFailed:
   message: "Your account does not exist or your email or password is incorrect."
 entryPointException:
   code: "-1002"
-  message: "You do not have permission to access this resource.
+  message: "You do not have permission to access this resource."
+accessDenied:
+  code: "-1003"
+  message: "A resource that can not be accessed with the privileges it has."

@@ -44,14 +44,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity
-                    .httpBasic().disable()                                                              //rest api 이므로 기본설정 사용안함. 기본설정은 비인증시 로그인폼 화면으로 리다이렉트 된다.
-                    .csrf().disable()                                                                   //rest api이므로 csrf 보안이 필요없으므로 disable처리.
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)         //jwt token으로 인증하므로 세션은 필요없으므로 생성안함.
+                    .httpBasic().disable()                                                                                      //rest api 이므로 기본설정 사용안함. 기본설정은 비인증시 로그인폼 화면으로 리다이렉트 된다.
+                    .csrf().disable()                                                                                           //rest api이므로 csrf 보안이 필요없으므로 disable처리.
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)                                 //jwt token으로 인증하므로 세션은 필요없으므로 생성안함.
                     .and()
-                        .authorizeRequests()                                                                //다음 리퀘스트에 대한 사용권한 체크
-                        .antMatchers("/*/signin", "/*/signup").permitAll()                      //가입 및 인증 주소는 누구나 접근가능
-                        .antMatchers(HttpMethod.GET, "helloworld/**", "/exception/**").permitAll()               //hellowworld, "/exception/로 시작하는 GET요청 리소스는 누구나 접근가능
-                        .anyRequest().hasRole("USER")                                                        //그외 나머지 요청은 모두 인증된 회원만 접근 가능
+                        .authorizeRequests()                                                                                     //다음 리퀘스트에 대한 사용권한 체크
+                        .antMatchers("/*/signin", "/*/signup").permitAll()                                          //가입 및 인증 주소는 누구나 접근가능
+                        .antMatchers(HttpMethod.GET, "helloworld/**", "/exception/**").permitAll()                  //hellowworld, "/exception/로 시작하는 GET요청 리소스는 누구나 접근가능
+                        .antMatchers("/*/users").hasRole("ADMIN")                                                   //users api는 ROLE_ADMIN 권한만 접근 가능하게 처리해 놓는다
+                        .anyRequest().hasRole("USER")                                                                            //그외 나머지 요청은 모두 인증된 회원만 접근 가능
+                    .and()
+                        .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                     .and()
                         .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                     .and()
